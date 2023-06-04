@@ -3,12 +3,14 @@ from datetime import datetime
 
 
 def load_data(path):
+    """загружает файл с данными"""
     with open(path, 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
     return data
 
 
 def filter_data(data):
+    """фильтрует по ключам ['EXECUTED']"""
     filtered_data = []
     for transaction in data:
         if transaction.get("state", None) == "EXECUTED":
@@ -17,16 +19,19 @@ def filter_data(data):
 
 
 def get_data(datum):
+    """возвращает дату транзакции"""
     date = datum.get("date", '')
     return date
 
 
 def sort_list(data):
+    """сортирует по датам"""
     sorted_data = sorted(data, key=get_data, reverse=True)
     return sorted_data
 
 
 def print_transaction(transaction):
+    """возвращает строку для печати в нужном формате"""
     date = datetime.strptime(transaction['date'], '%Y-%m-%dT%H:%M:%S.%f')
     date_string = date.strftime('%d.%m.%Y')
     output = f'{date_string} {transaction["description"]}\n'
@@ -39,6 +44,7 @@ def print_transaction(transaction):
 
 
 def format_id(account_id):
+    """изменяет старый формать данных (номер счёта/карты) на нужный"""
     id_list = account_id.split()
     id = id_list[-1]
     name_card = ' '.join(id_list[0:-1])
