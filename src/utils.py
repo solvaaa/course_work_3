@@ -15,6 +15,15 @@ def filter_data(data):
     return filtered_data
 
 
-def imported_list(data):
-    sorted_data = sorted(data)
+def get_data(datum):
+    date = datum.get("date", '')
+    return date
+
+
+def sort_list(data):
+    sorted_data = sorted(data, key=get_data, reverse=True)
     return sorted_data
+
+
+#path = '../operations.json'
+#data = filter_data(load_data(path))
