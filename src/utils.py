@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+
 def load_data(path):
     with open(path, 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
@@ -30,10 +31,10 @@ def print_transaction(transaction):
     date_string = date.strftime('%d.%m.%Y')
     output = f'{date_string} {transaction["description"]}\n'
     if 'from' in transaction:
-        output += f'{format_id(transaction["from"])}  ->  {format_id(transaction["to"])}\n'
+        output += f'{format_id(transaction["from"])} -> {format_id(transaction["to"])}\n'
     else:
         output += f'{format_id(transaction["to"])}\n'
-    output += f"{transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}\n\n"
+    output += f"{transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}\n"
     return output
 
 
@@ -47,23 +48,3 @@ def format_id(account_id):
         formatted = '**' + id[-4:]
     return name_card + ' ' + formatted
 
-
-
-
-#path = '../operations.json'
-#data = filter_data(load_data(path))
-print(print_transaction( {
-    "id": 710136990,
-    "state": "CANCELED",
-    "date": "2018-08-17T03:57:28.607101",
-    "operationAmount": {
-      "amount": "66906.45",
-      "currency": {
-        "name": "USD",
-        "code": "USD"
-      }
-    },
-    "description": "Перевод организации",
-    "from": "Visa Mastercard 1234567891011121",
-    "to": "Счет 11492155674319392427"
-  }))
