@@ -28,9 +28,13 @@ def sort_list(data):
 def print_transaction(transaction):
     date = datetime.strptime(transaction['date'], '%Y-%m-%dT%H:%M:%S.%f')
     date_string = date.strftime('%d.%m.%Y')
-    print(date_string, transaction["description"])
-    print(format_id(transaction['from']), ' -> ', format_id(transaction['to']))
-    print(transaction['operationAmount']['amount'], transaction['operationAmount']['currency']['name'])
+    output = f'{date_string} {transaction["description"]}\n'
+    if 'from' in transaction:
+        output += f'{format_id(transaction["from"])}  ->  {format_id(transaction["to"])}\n'
+    else:
+        output += f'{format_id(transaction["to"])}\n'
+    output += f"{transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}\n\n"
+    return output
 
 
 def format_id(account_id):
@@ -38,20 +42,17 @@ def format_id(account_id):
     id = id_list[-1]
     name_card = ' '.join(id_list[0:-1])
     if len(id) == 16:
-        formatted = id[:4] + ' ' + id[4:6] + '** ****' + id[12:]
+        formatted = id[:4] + ' ' + id[4:6] + '** **** ' + id[12:]
     else:
         formatted = '**' + id[-4:]
     return name_card + ' ' + formatted
 
 
 
-#print(date_string, transaction["description"])
-#14.10.2018 Перевод организации
-#Visa Platinum 7000 79** **** 6361 -> Счет **9638
-#82771.72 руб.
+
 #path = '../operations.json'
 #data = filter_data(load_data(path))
-print_transaction( {
+print(print_transaction( {
     "id": 710136990,
     "state": "CANCELED",
     "date": "2018-08-17T03:57:28.607101",
@@ -63,6 +64,6 @@ print_transaction( {
       }
     },
     "description": "Перевод организации",
-    "from": "Visa Gold 1913883747791351",
+    "from": "Visa Mastercard 1234567891011121",
     "to": "Счет 11492155674319392427"
-  })
+  }))
